@@ -1,17 +1,16 @@
+
 pipeline {
     agent any
 
     environment {
-        SERVER_IP      = '34.227.195.195'   
+        SERVER_IP      = '34.227.195.195'
         SSH_CREDENTIAL = 'my-key'
         REPO_URL       = 'https://github.com/sudarshanshin/node-js-app-CICD-main.git'
         BRANCH         = 'main'
         REMOTE_USER    = 'ubuntu'
-        REMOTE_PATH    = '/home/ubuntu/<node-js-app>'
+        REMOTE_PATH    = '/home/ubuntu/node-js-app'
     }
-    }
-    
-    
+
     stages {
         stage('Clone Repository') {
             steps {
@@ -37,7 +36,7 @@ pipeline {
                         ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${SERVER_IP} '
                             cd ${REMOTE_PATH} &&
                             npm install &&
-                            pm2 start app.js --name nodejs-app || pm2 restart nodejs-app
+                            (pm2 describe nodejs-app > /dev/null 2>&1 && pm2 restart nodejs-app || pm2 start app.js --name nodejs-app)
                         '
                     """
                 }
@@ -47,13 +46,11 @@ pipeline {
 
     post {
         success {
-            echo '✅ Application deployed successfully!'
+            echo 'Application deployed successfully!'
         }
         failure {
-            echo '❌ Deployment failed.'
+            echo 'Deployment failed.'
         }
     }
 }
-
-
 
