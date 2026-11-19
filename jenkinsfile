@@ -2,12 +2,13 @@ pipeline {
     agent any
 
     environment {
-        SERVER_IP      = 'target-server - private ip'   
-        SSH_CREDENTIAL = 'your-key'
-        REPO_URL       = 'your url'
+        SERVER_IP      = '34.227.195.195'   
+        SSH_CREDENTIAL = 'my-key'
+        REPO_URL       = 'https://github.com/sudarshanshin/node-js-app-CICD-main.git'
         BRANCH         = 'main'
         REMOTE_USER    = 'ubuntu'
-        REMOTE_PATH    = '/home/ubuntu/<your folder name>'
+        REMOTE_PATH    = '/home/ubuntu/<node-js-app>'
+    }
     }
     
     
